@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.CityMapper">
+  <resultMap id="BaseResultMap" type="com.test.entity.City">
+    <id column="CITY_ID" jdbcType="INTEGER" property="cityId" />
+    <result column="CITY_NAME" jdbcType="VARCHAR" property="cityName" />
+    <result column="PROVINCE_ID" jdbcType="INTEGER" property="provinceId" />
+    <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CITY_ID, CITY_NAME, PROVINCE_ID, AREA_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from city
+    where CITY_ID = #{cityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from city
+    where CITY_ID = #{cityId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.entity.City">
+    insert into city (CITY_ID, CITY_NAME, PROVINCE_ID, 
+      AREA_CODE)
+    values (#{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{provinceId,jdbcType=INTEGER}, 
+      #{areaCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.entity.City">
+    insert into city
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        CITY_ID,
+      </if>
+      <if test="cityName != null">
+        CITY_NAME,
+      </if>
+      <if test="provinceId != null">
+        PROVINCE_ID,
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.entity.City">
+    update city
+    <set>
+      <if test="cityName != null">
+        CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        PROVINCE_ID = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CITY_ID = #{cityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.entity.City">
+    update city
+    set CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=INTEGER},
+      AREA_CODE = #{areaCode,jdbcType=VARCHAR}
+    where CITY_ID = #{cityId,jdbcType=INTEGER}
+  </update>
+	
+  <select id="getAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from city
+  </select>  
+</mapper>
